@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Background Gradient */
+        .gradient-bg {
+            background: linear-gradient(180deg, #ffb6c1 0%, #ffdce5 50%, #ffffff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Centered Container */
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .content-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        /* Image Styling */
+        .image-display {
+            border-radius: 15px;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .image-display:hover {
+            transform: scale(1.05);
+        }
+
+        /* Valentine Question Text */
+        .question-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            font-style: italic;
+            color: #c2185b;
+            margin: 20px 0;
+            text-shadow: 2px 2px 10px rgba(255, 20, 147, 0.5);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Heartbeat Animation */
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Button Container */
+        .button-group {
+            display: flex;
+            gap: 16px;
+            padding-top: 20px;
+            align-items: center;
+        }
+
+        /* Accept Button (Yes) */
+        .accept-button {
+            animation: bounce-effect 2s ease infinite;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #28a745, #56d879);
+            color: white;
+            padding: 16px 24px;
+            min-width: 100px;
+            box-shadow: 0px 5px 15px rgba(40, 167, 69, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .accept-button:hover {
+            background: linear-gradient(135deg, #218838, #45c657);
+            transform: scale(1.1);
+        }
+
+        /* Reject Button (No) */
+        .reject-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #dc3545, #ff6b81);
+            color: white;
+            padding: 14px 22px;
+            min-width: 100px;
+            box-shadow: 0px 5px 15px rgba(220, 53, 69, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .reject-button:hover {
+            background: linear-gradient(135deg, #b02a37, #ff4f61);
+            transform: scale(1.1);
+        }
+
+        /* Bounce Animation */
+        @keyframes bounce-effect {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-12px);
+            }
+
+            60% {
+                transform: translateY(-6px);
+            }
+        }
+    </style>
+</head>
+
+<body class="gradient-bg">
+    <div class="container">
+        <div class="content-wrapper">
+            <img id="valentineImage" src="./images/image1.gif" alt="Cute kitten with flowers" class="image-display" />
+            <h2 id="valentineText" class="question-text">Will you be my Valentine?</h2>
+            <div class="button-group" id="buttonContainer">
+                <button id="acceptButton" class="accept-button">Yes</button>
+                <button id="rejectButton" class="reject-button">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import confetti from 'https://cdn.skypack.dev/canvas-confetti';
+
+        const acceptButton = document.getElementById('acceptButton');
+        const rejectButton = document.getElementById('rejectButton');
+        const valentineImage = document.getElementById('valentineImage');
+        const valentineText = document.getElementById('valentineText');
+        const buttonContainer = document.getElementById('buttonContainer');
+
+        let rejectClickCount = 0;
+        let buttonHeight = 48;
+        let buttonWidth = 80;
+        let fontSize = 20;
+
+        const imagePaths = [
+            "./images/image1.gif",
+            "./images/image2.gif",
+            "./images/image3.gif",
+            "./images/image4.gif",
+            "./images/image5.gif",
+            "./images/image6.gif",
+            "./images/image7.gif"
+        ];
+
+        const rejectionTexts = [
+            "No",
+            "Are you sure?",
+            "Pookie please",
+            "Don't do this to me :(",
+            "You're breaking my heart",
+            "I'm gonna cry..."
+        ];
+
+        rejectButton.addEventListener('click', () => {
+            if (rejectClickCount < rejectionTexts.length) {
+                rejectClickCount++;
+                valentineImage.src = imagePaths[Math.min(rejectClickCount, imagePaths.length - 1)];
+                buttonHeight += 35;
+                buttonWidth += 35;
+                fontSize += 25;
+                acceptButton.style.height = `${buttonHeight}px`;
+                acceptButton.style.width = `${buttonWidth}px`;
+                acceptButton.style.fontSize = `${fontSize}px`;
+                rejectButton.textContent = rejectionTexts[Math.min(rejectClickCount, rejectionTexts.length - 1)];
+            }
+        });
+
+        acceptButton.addEventListener('click', () => {
+            valentineImage.src = './images/image7.gif';
+            valentineText.textContent = "Yayyy!! :3";
+            buttonContainer.style.display = 'none';
+            confetti();
+        });
+    </script>
+</body>
+
+</html>
